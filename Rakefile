@@ -4,6 +4,7 @@ require 'nanoc3/tasks'
 #
 
 OPENSHIFT_REPO = 'ssh://e6462b5a8bfc469a86de55e6513537d6@nanoc-mfojtik.rhcloud.com/~/git/nanoc.git/'
+BASE_URL = "http://nanoc-mfojtik.rhcloud.com"
 
 desc 'Deploy the website to Heroku using Git.'
 task :deploy do
@@ -52,12 +53,20 @@ def prepare!
   puts %x[git checkout -b deployment]
 
   puts "Removing \"output\" directory from .gitignore.."
-  gitignore = File.read(".gitignore")
-  File.open(".gitignore", "w") do |file|
-    file.write(gitignore.gsub("output", ""))
-  end
+  begin
+    gitignore = File.read(".gitignore")
+    File.open(".gitignore", "w") do |file|
+      file.write(gitignore.gsub("output", ""))
+    end
 
-  change_base_url_to(BASE_URL)
+    change_base_url_to(BASE_URL)
+  rescue => e
+    puts "ERROR: #{e.message}"
+    puts "Reverting back to master..."
+    puts %x[git checkout master]
+    puts %x[git branch -D deployment]
+    puts %x[git checkout .]
+  end
 end
 
 ##
