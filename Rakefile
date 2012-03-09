@@ -73,6 +73,7 @@ end
 # Moves back to the "master" branch and removes the "deployment" branch
 #
 def revert!
+  %x[rm -rf public]
   %x[git checkout master]
   %x[git branch -D deployment]
 end
@@ -84,7 +85,7 @@ def deploy!
   puts "Running bundlers..."
   puts %x[bundle --path vendor/bundle]
   puts "Adding and committing compiled output for deployment.."
-  puts %x[git mv output public]
+  puts %x[mv output public]
   puts %x[git add .]
   puts %x[git commit -a -m "temporary commit for deployment"]
   puts 'Deploying to OpenShift..'
