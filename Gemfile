@@ -18,7 +18,4 @@ group :development do
 
   # HAML, Compass, Markdown and Builder for handling all important formats
   gem 'haml'
-
-  # YUI Compressor to compress JS and CSS
-  gem 'yui-compressor'
 end

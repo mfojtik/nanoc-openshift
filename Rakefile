@@ -84,6 +84,7 @@ def deploy!
   puts "Running bundlers..."
   puts %x[bundle --path vendor/bundle]
   puts "Adding and committing compiled output for deployment.."
+  puts %x[git mv output public]
   puts %x[git add .]
   puts %x[git commit -a -m "temporary commit for deployment"]
   puts 'Deploying to OpenShift..'
