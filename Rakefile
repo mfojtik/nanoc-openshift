@@ -6,7 +6,7 @@ require 'nanoc3/tasks'
 OPENSHIFT_REPO = 'ssh://e6462b5a8bfc469a86de55e6513537d6@nanoc-mfojtik.rhcloud.com/~/git/nanoc.git/'
 BASE_URL = "http://nanoc-mfojtik.rhcloud.com"
 
-desc 'Deploy the website to Heroku using Git.'
+desc 'Deploy the website to OpenShift using Git.'
 task :deploy do
   prepare!
   compile!
@@ -78,9 +78,6 @@ def revert!
   %x[git branch -D deployment]
 end
 
-##
-# Deploys the application via git to Heroku
-#
 def deploy!
   puts "Running bundlers..."
   puts %x[bundle --path vendor/bundle]
